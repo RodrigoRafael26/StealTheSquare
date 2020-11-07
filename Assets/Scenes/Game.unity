@@ -1145,6 +1145,7 @@ GameObject:
   - component: {fileID: 904857044}
   - component: {fileID: 904857043}
   - component: {fileID: 904857042}
+  - component: {fileID: 904857045}
   m_Layer: 5
   m_Name: Save
   m_TagString: Untagged
@@ -1253,6 +1254,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 904857040}
   m_CullTransparentMesh: 0
+--- !u!114 &904857045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 904857040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6de47f2cb9f128544b058350776ae7a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonSave: {fileID: 904857042}
 --- !u!1 &919340067
 GameObject:
   m_ObjectHideFlags: 0
@@ -1265,6 +1279,7 @@ GameObject:
   - component: {fileID: 919340071}
   - component: {fileID: 919340070}
   - component: {fileID: 919340069}
+  - component: {fileID: 919340072}
   m_Layer: 5
   m_Name: Steal
   m_TagString: Untagged
@@ -1373,6 +1388,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 919340067}
   m_CullTransparentMesh: 0
+--- !u!114 &919340072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919340067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9ac268b7c8eddd42b2cb09324694700, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonSteal: {fileID: 919340069}
 --- !u!1 &983317775
 GameObject:
   m_ObjectHideFlags: 0
@@ -1697,6 +1725,7 @@ GameObject:
   - component: {fileID: 1114329301}
   - component: {fileID: 1114329300}
   - component: {fileID: 1114329299}
+  - component: {fileID: 1114329302}
   m_Layer: 5
   m_Name: Share
   m_TagString: Untagged
@@ -1805,6 +1834,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1114329297}
   m_CullTransparentMesh: 0
+--- !u!114 &1114329302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1114329297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3239ea6df87b82a44b89e74f9cdb785d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonShare: {fileID: 1114329299}
 --- !u!1 &1120109322
 GameObject:
   m_ObjectHideFlags: 0
@@ -1969,6 +2011,7 @@ GameObject:
   - component: {fileID: 1168890009}
   - component: {fileID: 1168890008}
   - component: {fileID: 1168890007}
+  - component: {fileID: 1168890010}
   m_Layer: 5
   m_Name: Fight
   m_TagString: Untagged
@@ -2077,6 +2120,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1168890005}
   m_CullTransparentMesh: 0
+--- !u!114 &1168890010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1168890005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84c06a23fb4c7ba4382da3f841b1834e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonFight: {fileID: 1168890007}
 --- !u!1 &1214227674
 GameObject:
   m_ObjectHideFlags: 0
@@ -3359,6 +3415,7 @@ GameObject:
   - component: {fileID: 2105867629}
   - component: {fileID: 2105867628}
   - component: {fileID: 2105867627}
+  - component: {fileID: 2105867630}
   m_Layer: 5
   m_Name: Flee
   m_TagString: Untagged
@@ -3467,6 +3524,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2105867625}
   m_CullTransparentMesh: 0
+--- !u!114 &2105867630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2105867625}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40ea0bce782d3024f959b47064bb5310, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonFlee: {fileID: 2105867627}
 --- !u!1 &2110403538
 GameObject:
   m_ObjectHideFlags: 0
