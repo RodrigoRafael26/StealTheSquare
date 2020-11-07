@@ -16,6 +16,7 @@ public class Button_fight : MonoBehaviour
 	void TaskOnClick()
 	{
 		Debug.Log("Clicou no botao Fight!");
+
 		//pop up do fight
 	}
 }

@@ -7,6 +7,8 @@ public class Button_save : MonoBehaviour
 {
 	public Button buttonSave;
 
+	public XP xp_test;
+
 	void Start()
 	{
 		Button btn = buttonSave.GetComponent<Button>();
@@ -16,5 +18,7 @@ public class Button_save : MonoBehaviour
 	void TaskOnClick()
 	{
 		Debug.Log("Clicou no botao Save!");
+		int value = 10;
+		xp_test.SetXP(value);
 	}
 }
