@@ -2,20 +2,43 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-
-public class Button_direita : MonoBehaviour
+public class Button_direita : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
-	public Button yourButton;
+    public float maxHealth = 100f;
+    public HealthBar healthBar;
 
-	void Start()
-	{
-		Button btn = yourButton.GetComponent<Button>();
-		btn.onClick.AddListener(TaskOnClick);
-	}
+    void Start()
+    {
+        healthBar.SetMaxHealth(healthBar.currentHealth);
+    }
+    void Update()
+    {
+        if (!pressed)
+            return;
 
-	void TaskOnClick()
-	{
-		Debug.Log("Clicou na direita!");
-	}
+        TakeDamage(healthBar.currentHealth * 0.001f);
+
+        Debug.Log("Direita pressed");
+
+    }
+
+    void TakeDamage(float damage)
+    {
+        healthBar.currentHealth -= damage;
+        healthBar.SetHealth(healthBar.currentHealth);
+
+    }
+
+    bool pressed = false;
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        pressed = true;
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        pressed = false;
+    }
 }

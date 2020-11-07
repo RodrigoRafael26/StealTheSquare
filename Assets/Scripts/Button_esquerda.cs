@@ -2,19 +2,41 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class Button_esquerda : MonoBehaviour
+public class Button_esquerda : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
-	public Button yourButton;
+    public float maxHealth = 100f;
+    public HealthBar healthBar;
 
-	void Start()
-	{
-		Button btn = yourButton.GetComponent<Button>();
-		btn.onClick.AddListener(TaskOnClick);
-	}
+    void Start()
+    {
+        healthBar.SetMaxHealth(healthBar.currentHealth);
+    }
+    void Update()
+    {
+        if (!pressed)
+            return;
+        TakeDamage(healthBar.currentHealth * 0.001f);
 
-	void TaskOnClick()
-	{
-		Debug.Log("Clicou na esquerda!");
-	}
+        Debug.Log("Esquerda pressed");
+    }
+
+    void TakeDamage(float damage)
+    {
+        healthBar.currentHealth -= damage;
+        healthBar.SetHealth(healthBar.currentHealth);
+
+    }
+
+    bool pressed = false;
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        pressed = true;
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        pressed = false;
+    }
 }
