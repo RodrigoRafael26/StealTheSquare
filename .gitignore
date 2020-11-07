@@ -33,6 +33,7 @@ ExportedObj/
 *.VC.db
 Assets/Plugins/GitHub/Github/
 Assets/Plugins/GitHub/Github/GitHub.meta
+Assets/Plugins/GitHub/
 
 # Unity3D generated meta files
 *.pidb.meta
