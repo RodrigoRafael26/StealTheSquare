@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class XP : MonoBehaviour
 {
-    int xpAtual = 0;
+    float xpAtual = 0.0f;
 
     public Text xpText;
 
@@ -14,23 +15,18 @@ public class XP : MonoBehaviour
         writeXP(xpAtual);
     }
 
-    public void SetXP (int xp_val)
+    public void SetXP (float xp_val)
     {
-        if ((xpAtual + xp_val) > 100)
-        {
-            xpAtual = 100;
-        }
-        else
-        {
-            xpAtual = xpAtual + xp_val;
-        }
-        
+
+        xpAtual = xpAtual + xp_val;
+
         writeXP(xpAtual);
     }
 
-    void writeXP(int xp)
+    void writeXP(float xp)
     {
-        string xp_aux = xp + "/" + "100";
+        double xp1 = Math.Floor(xp);
+        string xp_aux = xp1.ToString();
         xpText.text = xp_aux;
     }
 }

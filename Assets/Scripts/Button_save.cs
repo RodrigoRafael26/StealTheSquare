@@ -8,6 +8,7 @@ public class Button_save : MonoBehaviour
 	public Button buttonSave;
 
 	public XP xp_test;
+	public HealthBar health;
 
 	void Start()
 	{
@@ -18,7 +19,9 @@ public class Button_save : MonoBehaviour
 	void TaskOnClick()
 	{
 		Debug.Log("Clicou no botao Save!");
-		int value = 10;
+		float value = health.currentHealth / 2;
+		health.currentHealth = value;
+		health.SetHealth(value);
 		xp_test.SetXP(value);
 	}
 }
