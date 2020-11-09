@@ -498,6 +498,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timerText: {fileID: 111675101}
+  health: {fileID: 62826742}
 --- !u!114 &111675101
 MonoBehaviour:
   m_ObjectHideFlags: 0
