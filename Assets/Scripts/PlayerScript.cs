@@ -5,10 +5,14 @@ using UnityEngine;
 public class PlayerScript : MonoBehaviour
 {
     // Start is called before the first frame update
+    public int n_width= 10;
+    public int n_height = 10;
     private Vector2 gridPos;
     void Start()
     {
-        gridPos = new Vector2 (0.5f, 0.5f);
+        float x = (float) Random.Range(n_width*(-1) ,n_width);
+        float y = (float) Random.Range(n_height*(-1) ,n_height);;
+        gridPos = new Vector2 (x + 0.5f , y + 0.5f);
     }
 
     // Update is called once per frame
