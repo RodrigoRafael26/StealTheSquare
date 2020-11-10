@@ -10,6 +10,9 @@ public class Timer : MonoBehaviour
 
     public Text timerText;
 
+    float count = 0.0f;
+    public HealthBar health;
+
     void Start()
     {
         time = initialTime; 
@@ -19,6 +22,14 @@ public class Timer : MonoBehaviour
     {
         if (time > 1.0f)
         {
+            if (count > 5.0f)
+            {
+                float value = (float) (health.currentHealth - health.currentHealth*0.01);
+                health.currentHealth = value;
+                health.SetHealth(value);
+                count = 0;
+            }
+            count += Time.deltaTime;
             time -= Time.deltaTime;
             int min = Mathf.FloorToInt(time / 60F);
             int sec = Mathf.FloorToInt(time - min * 60);
