@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerScript : MonoBehaviour
-{
+public class PlayerScript : MonoBehaviour{
+    
     // Start is called before the first frame update
     public int n_width= 10;
     public int n_height = 10;
@@ -16,8 +16,7 @@ public class PlayerScript : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update(){
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             gridPos.y++;
