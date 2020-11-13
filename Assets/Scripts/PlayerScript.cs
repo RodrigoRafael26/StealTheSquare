@@ -18,18 +18,22 @@ public class PlayerScript : MonoBehaviour{
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             gridPos.y++;
+            Debug.Log("Cima");
         }
         else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             gridPos.x--;
+            Debug.Log("Esquerda");
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             gridPos.x++;
+            Debug.Log("Direita");
         }
         else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             gridPos.y--;
+            Debug.Log("Baixo");
         }
 
 
