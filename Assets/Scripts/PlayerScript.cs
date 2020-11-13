@@ -7,12 +7,10 @@ public class PlayerScript : MonoBehaviour{
     // Start is called before the first frame update
     public int n_width= 10;
     public int n_height = 10;
-    private Vector2 gridPos;
+    private Vector3 gridPos;
     void Start()
     {
-        float x = (float) Random.Range(n_width*(-1) ,n_width);
-        float y = (float) Random.Range(n_height*(-1) ,n_height);;
-        gridPos = new Vector2 (x + 0.5f , y + 0.5f);
+        gridPos = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y);
     }
 
     // Update is called once per frame
@@ -34,24 +32,8 @@ public class PlayerScript : MonoBehaviour{
             gridPos.y--;
         }
 
-        if (gridPos.x < -5)
-        {
-            gridPos.x = 4.5f;
-        }
-        else if (gridPos.x > 5)
-        {
-            gridPos.x = -4.5f;
-        }
-        else if (gridPos.y < -5)
-        {
-            gridPos.y = 4.5f;
-        }
-        else if (gridPos.y > 5)
-        {
-            gridPos.y = -4.5f;
-        }
 
-        transform.position = new Vector3(gridPos.x, gridPos.y);
+       // transform.position = new Vector3(gridPos.x, gridPos.y);
 
     }
 }

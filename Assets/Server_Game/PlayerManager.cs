@@ -10,14 +10,12 @@ public class PlayerManager : NetworkBehaviour {
         base.OnStartServer();
         Debug.Log("Server started");
     }
-    public int n_width = 300;
-    public int n_height = 400;
-    private Vector2 gridPos;
-
+    private Vector3 gridPos; 
     // Update is called once per frame
     [Client]
     void Update()
     {
+        gridPos = transform.position;
         if(!hasAuthority){ return;} // only control one player
      
         if (Input.GetKeyDown(KeyCode.UpArrow))
