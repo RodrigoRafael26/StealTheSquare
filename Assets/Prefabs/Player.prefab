@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 8920911174830212691}
   - component: {fileID: 818493220236981888}
   - component: {fileID: 4371564565756872078}
-  - component: {fileID: 8670446382890124844}
-  - component: {fileID: 7417405326474007332}
+  - component: {fileID: 2042524144605308794}
+  - component: {fileID: 6185749211881066884}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 7820204900630434093}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 20, y: 20, z: 20}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -100,7 +100,7 @@ MonoBehaviour:
   serverOnly: 0
   m_AssetId: 
   hasSpawned: 0
---- !u!114 &8670446382890124844
+--- !u!114 &2042524144605308794
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -109,12 +109,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 7820204900630434093}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f324f5189c5510e4587f1bee61cb90d1, type: 3}
+  m_Script: {fileID: 11500000, guid: 7a7c17c49d51b024baafcbe9b08ff0fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  n_width: 10
-  n_height: 10
---- !u!114 &7417405326474007332
+  syncMode: 0
+  syncInterval: 0.1
+  movement: {x: 0, y: 0, z: 0}
+--- !u!114 &6185749211881066884
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -123,9 +124,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 7820204900630434093}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6aae2c927060993478b39cca9fd9940e, type: 3}
+  m_Script: {fileID: 11500000, guid: 1a5fa78e84309b8428235135ccedf018, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  board: {fileID: 0}
-  squares_w: 0
-  squares_h: 0

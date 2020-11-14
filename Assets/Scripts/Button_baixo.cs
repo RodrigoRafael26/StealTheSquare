@@ -29,7 +29,6 @@ public class Button_baixo : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
     {
         healthBar.currentHealth -= damage;
         healthBar.SetHealth(healthBar.currentHealth);
-
     }
 
     bool pressed = false;
