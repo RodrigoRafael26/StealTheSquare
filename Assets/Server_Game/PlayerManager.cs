@@ -20,21 +20,26 @@ public class PlayerManager : NetworkBehaviour {
      
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            gridPos.y+=10;
+            gridPos.y+=100;
             Debug.Log("GOING UP");
         }
         else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            gridPos.x-=10;
+            gridPos.x-=100;
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            gridPos.x+= 10;
+            gridPos.x+= 100;
         }
         else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            gridPos.y-= 10;
+            gridPos.y-= 100;
         }
+
+        if( gridPos.y > 1000) gridPos.y = 0;
+        if(gridPos.y < 0) gridPos.y = 1000;
+        if(gridPos.x > 1000) gridPos.x = 0;
+        if(gridPos.x < 0) gridPos.x = 1000;
 
        
         transform.position = new Vector3(gridPos.x, gridPos.y);
