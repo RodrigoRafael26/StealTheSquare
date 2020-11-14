@@ -36,10 +36,10 @@ public class PlayerManager : NetworkBehaviour {
             gridPos.y-= 100;
         }
 
-        if( gridPos.y > 1000) gridPos.y = 0;
-        if(gridPos.y < 0) gridPos.y = 1000;
-        if(gridPos.x > 1000) gridPos.x = 0;
-        if(gridPos.x < 0) gridPos.x = 1000;
+        if( gridPos.y > 500) gridPos.y = -450;
+        if(gridPos.y < -500) gridPos.y = 450;
+        if(gridPos.x > 500) gridPos.x = -450;
+        if(gridPos.x < -500) gridPos.x = 450;
 
        
         transform.position = new Vector3(gridPos.x, gridPos.y);

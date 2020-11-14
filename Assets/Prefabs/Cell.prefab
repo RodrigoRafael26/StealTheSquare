@@ -107,6 +107,8 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   image: {fileID: 0}
+  textPrefab: {fileID: 4950517696237545543, guid: a65cca4556fb5804485ae7be8580e52a,
+    type: 3}
   BoardPosition: {x: 0, y: 0}
   gameBoard: {fileID: 0}
   rectTransform: {fileID: 0}
