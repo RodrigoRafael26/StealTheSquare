@@ -7,7 +7,7 @@ using System;
 public class XP : MonoBehaviour
 {
     float xpAtual = 0.0f;
-    public Player player;
+    //public Player player;
     public Text xpText;
 
     void Start()
@@ -20,7 +20,7 @@ public class XP : MonoBehaviour
         xpAtual = xpAtual + xp_val;
 
         // set XP on player object
-        player.setXP((int) xp_val);
+        //player.setXP((int) xp_val);
 
         writeXP(xpAtual);
     }
