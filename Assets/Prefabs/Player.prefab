@@ -115,7 +115,9 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   movement: {x: 0, y: 0, z: 0}
-  board: {fileID: 3975001542663180850, guid: 2f9858f8e94b16b42b8ea7b22e6ac824, type: 3}
+  board: {fileID: 0}
+  CellPrefab: {fileID: 2544197318073924032, guid: 45b6f659c721aba4f971ca4b24d16012,
+    type: 3}
 --- !u!114 &8558330415455663497
 MonoBehaviour:
   m_ObjectHideFlags: 0

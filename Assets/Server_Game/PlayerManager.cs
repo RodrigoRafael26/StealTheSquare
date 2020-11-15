@@ -15,7 +15,7 @@ public class PlayerManager : NetworkBehaviour {
     // Start is called before the first frame update
     public Vector3 movement;
     PlayerClass player;
-    public BoardManager board;
+    public BoardManager board; 
 
     public override void OnStartServer(){
         base.OnStartServer();
@@ -23,11 +23,11 @@ public class PlayerManager : NetworkBehaviour {
     }
 
     private Vector3 gridPos;
-
     void Start() {
         player = new PlayerClass();
         player.health = 100f;
         player.xp = 0;
+        board = GameObject.FindGameObjectsWithTag("Board")[0].GetComponent<BoardManager>();
     }
 
     public void setHealth(float health) {
@@ -58,9 +58,11 @@ public class PlayerManager : NetworkBehaviour {
     [Client]
     void Update()
     {
+
         gridPos = transform.position;
         float health = getHealth();
         if (!hasAuthority){ return;} // only control one player
+
 
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
@@ -95,7 +97,8 @@ public class PlayerManager : NetworkBehaviour {
             float third_health = health / 3;
             setHealth(health - third_health);
             // RICKKKKKKKKKKYYYYYYYYYYYYYYYYYYYYYYY falta aceder a este board
-            // board.doSow(gridPos.x, gridPos.y);    
+            Debug.Log("Life is now "+  getHealth().ToString());
+            board.doSow(gridPos.x, gridPos.y);    
         }
 
         if(gridPos.y > 500) gridPos.y = -450;

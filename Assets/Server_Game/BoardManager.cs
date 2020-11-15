@@ -5,15 +5,13 @@ using Mirror;
 
 public class BoardManager : NetworkBehaviour
 {
-    // Start is called before the first frame update
 
     public GameObject CellPrefab;
+
     public Cell[,] AllCells = new Cell[10, 10];
     //int count = 0;
+    void Start(){
 
-    void Start()
-    {
-        
         //Create board matrix
         for (int x = 0; x < 10; x++){
             for(int y = 0; y < 10; y++){
@@ -22,10 +20,13 @@ public class BoardManager : NetworkBehaviour
                 rectTransform.anchoredPosition = new Vector2((x * 100) + 50, (y * 100) + 50);
                 
                 AllCells[x,y] = newCell.GetComponent<Cell>();
-                AllCells[x,y].Setup(new Vector2Int(x,y), this, 1);
+                AllCells[x,y].Setup(new Vector2Int(x,y), 1);
+
             }
         }
     }
+
+
 
     // Update is called once per frame
     void Update()
@@ -35,8 +36,8 @@ public class BoardManager : NetworkBehaviour
 
     public void doSow(float x, float y)
     {
+
         int xCell = 5, yCell = 5;
-        int beforeX = 0, beforeY = 0, afterX = 0, afterY = 0;
         switch (x)
         {
             case 450.0f:
@@ -109,8 +110,9 @@ public class BoardManager : NetworkBehaviour
                 break;
         }
 
+        AllCells[xCell, yCell].setLife(AllCells[xCell, yCell].getLife() + 4);
 
-        if (xCell == 0)
+        /*if (xCell == 0)
         {
             beforeX = 9;
         }
@@ -153,6 +155,6 @@ public class BoardManager : NetworkBehaviour
         AllCells[afterX, yCell].setLife(AllCells[afterX, yCell].getLife() * 3);
         AllCells[beforeX, afterY].setLife(AllCells[beforeX, afterY].getLife() * 3);
         AllCells[xCell, afterY].setLife(AllCells[xCell, afterY].getLife() * 3);
-        AllCells[afterX, afterY].setLife(AllCells[afterX, afterY].getLife() * 3);
+        AllCells[afterX, afterY].setLife(AllCells[afterX, afterY].getLife() * 3);*/
     }
 }

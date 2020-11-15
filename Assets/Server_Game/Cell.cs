@@ -13,43 +13,43 @@ public class Cell : NetworkBehaviour {
     public GameObject textPrefab;
     [HideInInspector]
     public Vector2Int BoardPosition = Vector2Int.zero;
-
-    [HideInInspector]
-    public BoardManager gameBoard = null;
     [HideInInspector]
     public RectTransform rectTransform =null;
 
-    private int life;
+    [SyncVar]
+    int life;
     private int isOccupied;
 
     [HideInInspector]
     public Text textPrefabText;
     
-    public void Setup(Vector2Int newBoardPosition, BoardManager newBoard, int given_life)
+    public void Setup(Vector2Int newBoardPosition, int given_life)
     {
         BoardPosition = newBoardPosition;
-        gameBoard = newBoard;
         life = given_life;
         isOccupied = 0;
         rectTransform = GetComponent<RectTransform>();
     }
     void Start(){
-
+        
         GameObject newText = Instantiate(textPrefab, transform);
-        textPrefabText = textPrefab.GetComponent<Text>();
+        newText.AddComponent<NetworkIdentity>();
+        textPrefabText = newText.GetComponent<Text>();
 
         textPrefabText.text = life.ToString();
         
     }
-
+    
+    
     public void setLife(int new_life)
     {
-        life = new_life;
+        this.life = new_life;
+        textPrefabText.text = this.life.ToString();
     }
 
     public int getLife()
     {
-        return life;
+        return this.life;
     }
 
     // Update is called once per frame
