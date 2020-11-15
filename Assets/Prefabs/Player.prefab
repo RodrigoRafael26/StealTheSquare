@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 818493220236981888}
   - component: {fileID: 4371564565756872078}
   - component: {fileID: 2042524144605308794}
-  - component: {fileID: 6185749211881066884}
+  - component: {fileID: 8558330415455663497}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -115,7 +115,8 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   movement: {x: 0, y: 0, z: 0}
---- !u!114 &6185749211881066884
+  board: {fileID: 3975001542663180850, guid: 2f9858f8e94b16b42b8ea7b22e6ac824, type: 3}
+--- !u!114 &8558330415455663497
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -124,6 +125,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 7820204900630434093}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a5fa78e84309b8428235135ccedf018, type: 3}
+  m_Script: {fileID: 11500000, guid: 2f74aedd71d9a4f55b3ce499326d45fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  clientAuthority: 1
+  localPositionSensitivity: 0.01
+  localRotationSensitivity: 0.01
+  localScaleSensitivity: 0.01

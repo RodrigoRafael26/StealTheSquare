@@ -323,7 +323,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slider: {fileID: 62826743}
   currentHealth: 100
-  player: {fileID: 526768532}
 --- !u!114 &62826743
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2052,7 +2051,6 @@ GameObject:
   - component: {fileID: 526768529}
   - component: {fileID: 526768531}
   - component: {fileID: 526768530}
-  - component: {fileID: 526768532}
   m_Layer: 5
   m_Name: Jogador
   m_TagString: Untagged
@@ -2116,18 +2114,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 526768528}
   m_CullTransparentMesh: 0
---- !u!114 &526768532
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 526768528}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a5fa78e84309b8428235135ccedf018, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &552547042
 GameObject:
   m_ObjectHideFlags: 0
@@ -3601,7 +3587,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c19eeae7c8fd4946b8dc9c14939e3b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 526768532}
   xpText: {fileID: 832786926}
 --- !u!114 &832786926
 MonoBehaviour:

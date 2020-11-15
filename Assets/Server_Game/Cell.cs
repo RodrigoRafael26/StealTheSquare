@@ -25,10 +25,11 @@ public class Cell : NetworkBehaviour {
     [HideInInspector]
     public Text textPrefabText;
     
-    public void Setup(Vector2Int newBoardPosition, BoardManager newBoard){
+    public void Setup(Vector2Int newBoardPosition, BoardManager newBoard, int given_life)
+    {
         BoardPosition = newBoardPosition;
         gameBoard = newBoard;
-        life = 1;
+        life = given_life;
         isOccupied = 0;
         rectTransform = GetComponent<RectTransform>();
     }
@@ -39,6 +40,16 @@ public class Cell : NetworkBehaviour {
 
         textPrefabText.text = life.ToString();
         
+    }
+
+    public void setLife(int new_life)
+    {
+        life = new_life;
+    }
+
+    public int getLife()
+    {
+        return life;
     }
 
     // Update is called once per frame
