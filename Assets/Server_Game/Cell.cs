@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 using Mirror;
 
@@ -17,11 +18,14 @@ public class Cell : NetworkBehaviour {
     public RectTransform rectTransform =null;
 
     [SyncVar]
-    int life;
+    float life;
     private int isOccupied;
+    int life_toPrint = 1;
 
     [HideInInspector]
     public Text textPrefabText;
+
+    float count = 0f;
     
     public void Setup(Vector2Int newBoardPosition, int given_life)
     {
@@ -37,23 +41,34 @@ public class Cell : NetworkBehaviour {
         textPrefabText = newText.GetComponent<Text>();
 
         textPrefabText.text = life.ToString();
-        
     }
     
     
-    public void setLife(int new_life)
+    public void setLife(float new_life)
     {
         this.life = new_life;
-        textPrefabText.text = this.life.ToString();
+        life_toPrint = (int)Math.Round(this.life);
+        Debug.Log(life_toPrint);
+        textPrefabText.text = life_toPrint.ToString();
     }
 
-    public int getLife()
+    public float getLife()
     {
         return this.life;
     }
 
     // Update is called once per frame
     void Update(){
-        textPrefabText.text = life.ToString();
+        textPrefabText.text = life_toPrint.ToString();
+
+        float life_now = getLife();
+
+        if (count > 20.0f)
+        {
+            count = 0;
+            setLife(life_now + life_now * 0.1f);
+        }
+        count += Time.deltaTime;
     }
+
 }

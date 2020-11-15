@@ -20,7 +20,7 @@ public class PlayerManager : NetworkBehaviour {
     public Cell[,] AllCells = new Cell[10, 10];
     PlayerClass player;
     [HideInInspector]
-    public NetworkManagerSquare board; 
+    public NetworkManagerSquare board;
 
     public override void OnStartClient(){
         base.OnStartClient();
@@ -51,7 +51,6 @@ public class PlayerManager : NetworkBehaviour {
         player = new PlayerClass();
         player.health = 100f;
         player.xp = 0;
-        
     }
 
     public void setHealth(float health) {
@@ -87,52 +86,57 @@ public class PlayerManager : NetworkBehaviour {
         float health = getHealth();
         if (!hasAuthority){ return;} // only control one player
 
-
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             gridPos.y+=100;
             setHealth(health - health * 0.001f);
+            setHealth(getHealth() + doHarvest(gridPos.x, gridPos.y));
         }
         else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             gridPos.x-=100;
             setHealth(health - health * 0.001f);
+            setHealth(getHealth() + doHarvest(gridPos.x, gridPos.y));
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             gridPos.x+= 100;
             setHealth(health - health * 0.001f);
+            setHealth(getHealth() + doHarvest(gridPos.x, gridPos.y));
         }
         else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             gridPos.y-= 100;
             setHealth(health - health * 0.001f);
+            setHealth(getHealth() + doHarvest(gridPos.x, gridPos.y));
         }
         else if (Input.GetKeyDown(KeyCode.S))
         {
             float half_health = health / 2;
             int xp = getXP();
             setHealth(half_health);
+            setHealth(getHealth() + doHarvest(gridPos.x, gridPos.y));
             setXP(xp + (int)half_health);
-            Debug.Log(getXP());
+            //Debug.Log(getXP());
         }
         else if (Input.GetKeyDown(KeyCode.X))
         {
             float third_health = health / 3;
+            setHealth(getHealth() + doHarvest(gridPos.x, gridPos.y));
             setHealth(health - third_health);
-            Debug.Log("Life is now "+  getHealth().ToString());
+            //Debug.Log("Life is now "+  getHealth().ToString());
             Sow(gridPos.x, gridPos.y);    
         }
-
-        if(gridPos.y > 500) gridPos.y = -450;
+       
+        if (gridPos.y > 500) gridPos.y = -450;
         if(gridPos.y < -500) gridPos.y = 450;
         if(gridPos.x > 500) gridPos.x = -450;
         if(gridPos.x < -500) gridPos.x = 450;
 
         transform.position = new Vector3(gridPos.x, gridPos.y);
 
-        // Debug.Log("Health: " + getHealth());
-        // Debug.Log("XP: " + getXP());
+        Debug.Log("Health: " + getHealth());
+        Debug.Log("XP: " + getXP());
     }
 
     [Command]
@@ -229,5 +233,87 @@ public class PlayerManager : NetworkBehaviour {
         }
 
         AllCells[xCell, yCell].setLife(AllCells[xCell, yCell].getLife() + 4);
+    }
+
+    public float doHarvest(float x, float y)
+    {
+        int xCell = 5, yCell = 5;
+        float cellLife;
+        switch (x)
+        {
+            case 450.0f:
+                xCell = 9;
+                break;
+            case 350.0f:
+                xCell = 8;
+                break;
+            case 250.0f:
+                xCell = 7;
+                break;
+            case 150.0f:
+                xCell = 6;
+                break;
+            case 50.0f:
+                xCell = 5;
+                break;
+            case -50.0f:
+                xCell = 4;
+                break;
+            case -150.0f:
+                xCell = 3;
+                break;
+            case -250.0f:
+                xCell = 2;
+                break;
+            case -350.0f:
+                xCell = 1;
+                break;
+            case -450.0f:
+                xCell = 0;
+                break;
+            default:
+                break;
+        }
+
+        switch (y)
+        {
+            case 450.0f:
+                yCell = 9;
+                break;
+            case 350.0f:
+                yCell = 8;
+                break;
+            case 250.0f:
+                yCell = 7;
+                break;
+            case 150.0f:
+                yCell = 6;
+                break;
+            case 50.0f:
+                yCell = 5;
+                break;
+            case -50.0f:
+                yCell = 4;
+                break;
+            case -150.0f:
+                yCell = 3;
+                break;
+            case -250.0f:
+                yCell = 2;
+                break;
+            case -350.0f:
+                yCell = 1;
+                break;
+            case -450.0f:
+                yCell = 0;
+                break;
+            default:
+                break;
+        }
+
+        cellLife = AllCells[xCell, yCell].getLife();       
+        AllCells[xCell, yCell].setLife(0);
+
+        return cellLife;
     }
 }

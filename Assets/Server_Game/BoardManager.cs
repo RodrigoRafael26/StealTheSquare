@@ -110,7 +110,7 @@ public class BoardManager : NetworkBehaviour
                 break;
         }
 
-        AllCells[xCell, yCell].setLife(AllCells[xCell, yCell].getLife() + 4);
+        AllCells[xCell, yCell].setLife(AllCells[xCell, yCell].getLife() * 3);
 
         /*if (xCell == 0)
         {
