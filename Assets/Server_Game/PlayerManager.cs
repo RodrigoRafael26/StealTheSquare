@@ -14,12 +14,36 @@ public class PlayerManager : NetworkBehaviour {
 
     // Start is called before the first frame update
     public Vector3 movement;
+    public GameObject CellPrefab;
+    [HideInInspector]
+    public GameObject Canvas;
+    public Cell[,] AllCells = new Cell[10, 10];
     PlayerClass player;
-    public BoardManager board; 
+    [HideInInspector]
+    public NetworkManagerSquare board; 
+
+    public override void OnStartClient(){
+        base.OnStartClient();
+        Canvas = GameObject.FindGameObjectsWithTag("Canvas")[0];
+        GameObject[] Cells = GameObject.FindGameObjectsWithTag("Board");
+        
+        
+        int num= 0;
+        for (int x = 0; x < 10; x++){
+            for(int y = 0; y < 10; y++){
+                AllCells[x,y] = Cells[num].GetComponent<Cell>();
+                Cells[num].transform.SetParent(Canvas.transform);
+                num++;
+            }
+        }
+        
+    }
 
     public override void OnStartServer(){
         base.OnStartServer();
-        Debug.Log("Server started");
+        Canvas = GameObject.FindGameObjectsWithTag("Canvas")[0];
+        DrawMap();
+
     }
 
     private Vector3 gridPos;
@@ -27,7 +51,7 @@ public class PlayerManager : NetworkBehaviour {
         player = new PlayerClass();
         player.health = 100f;
         player.xp = 0;
-        board = GameObject.FindGameObjectsWithTag("Board")[0].GetComponent<BoardManager>();
+        
     }
 
     public void setHealth(float health) {
@@ -96,9 +120,8 @@ public class PlayerManager : NetworkBehaviour {
         {
             float third_health = health / 3;
             setHealth(health - third_health);
-            // RICKKKKKKKKKKYYYYYYYYYYYYYYYYYYYYYYY falta aceder a este board
             Debug.Log("Life is now "+  getHealth().ToString());
-            board.doSow(gridPos.x, gridPos.y);    
+            Sow(gridPos.x, gridPos.y);    
         }
 
         if(gridPos.y > 500) gridPos.y = -450;
@@ -110,5 +133,101 @@ public class PlayerManager : NetworkBehaviour {
 
         // Debug.Log("Health: " + getHealth());
         // Debug.Log("XP: " + getXP());
+    }
+
+    [Command]
+    void DrawMap(){
+       
+        for (int x = 0; x < 10; x++){
+            for(int y = 0; y < 10; y++){
+                GameObject newCell = Instantiate(CellPrefab, Canvas.transform);
+                NetworkServer.Spawn(newCell);
+                RectTransform rectTransform = newCell.GetComponent<RectTransform>();
+                rectTransform.anchoredPosition = new Vector2((x * 100) + 50, (y * 100) + 50);
+                
+                AllCells[x,y] = newCell.GetComponent<Cell>();
+                AllCells[x,y].Setup(new Vector2Int(x,y), 1);
+            }
+        }
+    }
+
+    [Command]
+    void Sow(float x, float y){
+
+        Debug.Log(x.ToString());
+        int xCell = 5, yCell = 5;
+        switch (x)
+        {
+            case 450.0f:
+                xCell = 9;
+                break;
+            case 350.0f:
+                xCell = 8;
+                break;
+            case 250.0f:
+                xCell = 7;
+                break;
+            case 150.0f:
+                xCell = 6;
+                break;
+            case 50.0f:
+                xCell = 5;
+                break;
+            case -50.0f:
+                xCell = 4;
+                break;
+            case -150.0f:
+                xCell = 3;
+                break;
+            case -250.0f:
+                xCell = 2;
+                break;
+            case -350.0f:
+                xCell = 1;
+                break;
+            case -450.0f:
+                xCell = 0;
+                break;
+            default:
+                break;
+        }
+
+        switch (y)
+        {
+            case 450.0f:
+                yCell = 9;
+                break;
+            case 350.0f:
+                yCell = 8;
+                break;
+            case 250.0f:
+                yCell = 7;
+                break;
+            case 150.0f:
+                yCell = 6;
+                break;
+            case 50.0f:
+                yCell = 5;
+                break;
+            case -50.0f:
+                yCell = 4;
+                break;
+            case -150.0f:
+                yCell = 3;
+                break;
+            case -250.0f:
+                yCell = 2;
+                break;
+            case -350.0f:
+                yCell = 1;
+                break;
+            case -450.0f:
+                yCell = 0;
+                break;
+            default:
+                break;
+        }
+
+        AllCells[xCell, yCell].setLife(AllCells[xCell, yCell].getLife() + 4);
     }
 }

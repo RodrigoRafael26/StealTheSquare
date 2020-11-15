@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3036637541386807969}
   m_Layer: 0
   m_Name: Cell
-  m_TagString: Untagged
+  m_TagString: Board
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -110,6 +110,5 @@ MonoBehaviour:
   textPrefab: {fileID: 4950517696237545543, guid: a65cca4556fb5804485ae7be8580e52a,
     type: 3}
   BoardPosition: {x: 0, y: 0}
-  gameBoard: {fileID: 0}
   rectTransform: {fileID: 0}
   textPrefabText: {fileID: 0}
