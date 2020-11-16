@@ -48,7 +48,6 @@ public class Cell : NetworkBehaviour {
     {
         this.life = new_life;
         life_toPrint = (int)Math.Round(this.life);
-        Debug.Log(life_toPrint);
         textPrefabText.text = life_toPrint.ToString();
     }
 
@@ -59,8 +58,6 @@ public class Cell : NetworkBehaviour {
 
     // Update is called once per frame
     void Update(){
-        textPrefabText.text = life_toPrint.ToString();
-
         float life_now = getLife();
 
         if (count > 20.0f)

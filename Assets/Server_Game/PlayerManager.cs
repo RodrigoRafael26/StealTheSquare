@@ -90,39 +90,37 @@ public class PlayerManager : NetworkBehaviour {
         {
             gridPos.y+=100;
             setHealth(health - health * 0.001f);
-            setHealth(getHealth() + doHarvest(gridPos.x, gridPos.y));
+            doHarvest(gridPos.x, gridPos.y);
         }
         else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             gridPos.x-=100;
             setHealth(health - health * 0.001f);
-            setHealth(getHealth() + doHarvest(gridPos.x, gridPos.y));
+            doHarvest(gridPos.x, gridPos.y);
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             gridPos.x+= 100;
             setHealth(health - health * 0.001f);
-            setHealth(getHealth() + doHarvest(gridPos.x, gridPos.y));
+            doHarvest(gridPos.x, gridPos.y);
         }
         else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             gridPos.y-= 100;
             setHealth(health - health * 0.001f);
-            setHealth(getHealth() + doHarvest(gridPos.x, gridPos.y));
+            doHarvest(gridPos.x, gridPos.y);
         }
         else if (Input.GetKeyDown(KeyCode.S))
         {
             float half_health = health / 2;
             int xp = getXP();
             setHealth(half_health);
-            setHealth(getHealth() + doHarvest(gridPos.x, gridPos.y));
             setXP(xp + (int)half_health);
             //Debug.Log(getXP());
         }
         else if (Input.GetKeyDown(KeyCode.X))
         {
             float third_health = health / 3;
-            setHealth(getHealth() + doHarvest(gridPos.x, gridPos.y));
             setHealth(health - third_health);
             //Debug.Log("Life is now "+  getHealth().ToString());
             Sow(gridPos.x, gridPos.y);    
@@ -235,7 +233,8 @@ public class PlayerManager : NetworkBehaviour {
         AllCells[xCell, yCell].setLife(AllCells[xCell, yCell].getLife() + 4);
     }
 
-    public float doHarvest(float x, float y)
+    [Command]
+    public void doHarvest(float x, float y)
     {
         int xCell = 5, yCell = 5;
         float cellLife;
@@ -311,9 +310,8 @@ public class PlayerManager : NetworkBehaviour {
                 break;
         }
 
-        cellLife = AllCells[xCell, yCell].getLife();       
+        cellLife = AllCells[xCell, yCell].getLife();
+        setHealth(getHealth() + cellLife);       
         AllCells[xCell, yCell].setLife(0);
-
-        return cellLife;
     }
 }
