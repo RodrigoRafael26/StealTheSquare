@@ -43,7 +43,6 @@ public class PlayerManager : NetworkBehaviour {
         base.OnStartServer();
         Canvas = GameObject.FindGameObjectsWithTag("Canvas")[0];
         DrawMap();
-
     }
 
     private Vector3 gridPos;

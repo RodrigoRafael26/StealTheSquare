@@ -34,13 +34,14 @@ public class Cell : NetworkBehaviour {
         isOccupied = 0;
         rectTransform = GetComponent<RectTransform>();
     }
+
     void Start(){
         
         GameObject newText = Instantiate(textPrefab, transform);
         newText.AddComponent<NetworkIdentity>();
         textPrefabText = newText.GetComponent<Text>();
 
-        textPrefabText.text = life.ToString();
+        textPrefabText.text = life_toPrint.ToString();
     }
     
     
