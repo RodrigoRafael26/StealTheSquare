@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using System;
 
 class PlayerClass {
     public string nickname;
@@ -28,7 +29,7 @@ public class PlayerManager : NetworkBehaviour {
         GameObject[] Cells = GameObject.FindGameObjectsWithTag("Board");
         
         
-        int num= 0;
+        int num = 0;
         for (int x = 0; x < 10; x++){
             for(int y = 0; y < 10; y++){
                 AllCells[x,y] = Cells[num].GetComponent<Cell>();
@@ -36,7 +37,8 @@ public class PlayerManager : NetworkBehaviour {
                 num++;
             }
         }
-        
+
+        //enterCell(gridPos);
     }
 
     public override void OnStartServer(){
@@ -80,16 +82,24 @@ public class PlayerManager : NetworkBehaviour {
     [Client]
     void Update()
     {
-
         gridPos = transform.position;
         float health = getHealth();
         if (!hasAuthority){ return;} // only control one player
 
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
+            leaveCell(gridPos);
             gridPos.y+=100;
             setHealth(health - health * 0.001f);
             doHarvest(gridPos.x, gridPos.y);
+            if (enterCell(gridPos))
+            {
+                Debug.Log("Collided");
+            }
+            else
+            {
+                Debug.Log("Didnt collided");
+            }
         }
         else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
@@ -136,9 +146,27 @@ public class PlayerManager : NetworkBehaviour {
         Debug.Log("XP: " + getXP());
     }
 
+    private bool enterCell(Vector3 gridPos)
+    {
+        int xCell = switchFunction(gridPos.x), yCell = switchFunction(gridPos.y);
+        if(AllCells[xCell, yCell].isOccupied)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private void leaveCell(Vector3 gridPos)
+    {
+        int xCell = switchFunction(gridPos.x), yCell = switchFunction(gridPos.y);
+        AllCells[xCell, yCell].isOccupied = false;
+    }
+
     [Command]
     void DrawMap(){
-       
         for (int x = 0; x < 10; x++){
             for(int y = 0; y < 10; y++){
                 GameObject newCell = Instantiate(CellPrefab, Canvas.transform);
@@ -152,162 +180,46 @@ public class PlayerManager : NetworkBehaviour {
         }
     }
 
+    int switchFunction(float number)
+    {
+        switch (number)
+        {
+            case 450.0f:
+                return 9;
+            case 350.0f:
+                return 8;
+            case 250.0f:
+                return 7;
+            case 150.0f:
+                return 6;
+            case 50.0f:
+                return 5;
+            case -50.0f:
+                return 4;
+            case -150.0f:
+                return 3;
+            case -250.0f:
+                return 2;
+            case -350.0f:
+                return 1;
+            case -450.0f:
+                return 0;
+            default:
+                return 0;
+        }
+    }
+
     [Command]
     void Sow(float x, float y){
-
-        Debug.Log(x.ToString());
-        int xCell = 5, yCell = 5;
-        switch (x)
-        {
-            case 450.0f:
-                xCell = 9;
-                break;
-            case 350.0f:
-                xCell = 8;
-                break;
-            case 250.0f:
-                xCell = 7;
-                break;
-            case 150.0f:
-                xCell = 6;
-                break;
-            case 50.0f:
-                xCell = 5;
-                break;
-            case -50.0f:
-                xCell = 4;
-                break;
-            case -150.0f:
-                xCell = 3;
-                break;
-            case -250.0f:
-                xCell = 2;
-                break;
-            case -350.0f:
-                xCell = 1;
-                break;
-            case -450.0f:
-                xCell = 0;
-                break;
-            default:
-                break;
-        }
-
-        switch (y)
-        {
-            case 450.0f:
-                yCell = 9;
-                break;
-            case 350.0f:
-                yCell = 8;
-                break;
-            case 250.0f:
-                yCell = 7;
-                break;
-            case 150.0f:
-                yCell = 6;
-                break;
-            case 50.0f:
-                yCell = 5;
-                break;
-            case -50.0f:
-                yCell = 4;
-                break;
-            case -150.0f:
-                yCell = 3;
-                break;
-            case -250.0f:
-                yCell = 2;
-                break;
-            case -350.0f:
-                yCell = 1;
-                break;
-            case -450.0f:
-                yCell = 0;
-                break;
-            default:
-                break;
-        }
-
+        int xCell = switchFunction(x), yCell = switchFunction(y);
         AllCells[xCell, yCell].setLife(AllCells[xCell, yCell].getLife() + 4);
     }
 
     [Command]
     public void doHarvest(float x, float y)
     {
-        int xCell = 5, yCell = 5;
+        int xCell = switchFunction(x), yCell = switchFunction(y);
         float cellLife;
-        switch (x)
-        {
-            case 450.0f:
-                xCell = 9;
-                break;
-            case 350.0f:
-                xCell = 8;
-                break;
-            case 250.0f:
-                xCell = 7;
-                break;
-            case 150.0f:
-                xCell = 6;
-                break;
-            case 50.0f:
-                xCell = 5;
-                break;
-            case -50.0f:
-                xCell = 4;
-                break;
-            case -150.0f:
-                xCell = 3;
-                break;
-            case -250.0f:
-                xCell = 2;
-                break;
-            case -350.0f:
-                xCell = 1;
-                break;
-            case -450.0f:
-                xCell = 0;
-                break;
-            default:
-                break;
-        }
-
-        switch (y)
-        {
-            case 450.0f:
-                yCell = 9;
-                break;
-            case 350.0f:
-                yCell = 8;
-                break;
-            case 250.0f:
-                yCell = 7;
-                break;
-            case 150.0f:
-                yCell = 6;
-                break;
-            case 50.0f:
-                yCell = 5;
-                break;
-            case -50.0f:
-                yCell = 4;
-                break;
-            case -150.0f:
-                yCell = 3;
-                break;
-            case -250.0f:
-                yCell = 2;
-                break;
-            case -350.0f:
-                yCell = 1;
-                break;
-            case -450.0f:
-                yCell = 0;
-                break;
-            default:
-                break;
-        }
 
         cellLife = AllCells[xCell, yCell].getLife();
         setHealth(getHealth() + cellLife);       

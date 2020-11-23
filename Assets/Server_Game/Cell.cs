@@ -19,7 +19,7 @@ public class Cell : NetworkBehaviour {
 
     [SyncVar]
     float life;
-    private int isOccupied;
+    public bool isOccupied;
     int life_toPrint = 1;
 
     [HideInInspector]
@@ -31,7 +31,7 @@ public class Cell : NetworkBehaviour {
     {
         BoardPosition = newBoardPosition;
         life = given_life;
-        isOccupied = 0;
+        isOccupied = false;
         rectTransform = GetComponent<RectTransform>();
     }
 
@@ -65,6 +65,10 @@ public class Cell : NetworkBehaviour {
         {
             count = 0;
             setLife(life_now + life_now * 0.1f);
+        }
+        else
+        {
+            setLife(life_now);
         }
         count += Time.deltaTime;
     }
