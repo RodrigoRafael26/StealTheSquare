@@ -11,19 +11,7 @@ public class BoardManager : NetworkBehaviour
     public Cell[,] AllCells = new Cell[10, 10];
     //int count = 0;
     void Start(){
-
-        //Create board matrix
-        for (int x = 0; x < 10; x++){
-            for(int y = 0; y < 10; y++){
-                GameObject newCell = Instantiate(CellPrefab, transform);
-                RectTransform rectTransform = newCell.GetComponent<RectTransform>();
-                rectTransform.anchoredPosition = new Vector2((x * 100) + 50, (y * 100) + 50);
-                
-                AllCells[x,y] = newCell.GetComponent<Cell>();
-                AllCells[x,y].Setup(new Vector2Int(x,y), 1);
-
-            }
-        }
+        
     }
 
 
