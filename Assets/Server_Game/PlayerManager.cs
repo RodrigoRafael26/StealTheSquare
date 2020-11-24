@@ -6,6 +6,7 @@ using System;
 
 class PlayerClass {
     public string nickname;
+    public int ID;
     public float health;
     public int xp;
     public bool[,] position;
@@ -23,7 +24,11 @@ public class PlayerManager : NetworkBehaviour {
     [HideInInspector]
     public NetworkManagerSquare board;
 
+    [SyncVar]
+    public int num_players = 0;
+
     public override void OnStartClient(){
+        
         base.OnStartClient();
         Canvas = GameObject.FindGameObjectsWithTag("Canvas")[0];
         GameObject[] Cells = GameObject.FindGameObjectsWithTag("Board");
@@ -42,6 +47,7 @@ public class PlayerManager : NetworkBehaviour {
     }
 
     public override void OnStartServer(){
+        num_players++;
         base.OnStartServer();
         Canvas = GameObject.FindGameObjectsWithTag("Canvas")[0];
         DrawMap();
@@ -52,6 +58,9 @@ public class PlayerManager : NetworkBehaviour {
         player = new PlayerClass();
         player.health = 100f;
         player.xp = 0;
+        player.ID = num_players;
+
+        Debug.Log(player.ID );
     }
 
     public void setHealth(float health) {
@@ -92,32 +101,32 @@ public class PlayerManager : NetworkBehaviour {
             gridPos.y+=100;
             setHealth(health - health * 0.001f);
             doHarvest(gridPos.x, gridPos.y);
-            if (enterCell(gridPos))
-            {
-                Debug.Log("Collided");
-            }
-            else
-            {
-                Debug.Log("Didnt collided");
-            }
+            enterCell(gridPos);
         }
         else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
+            leaveCell(gridPos);
             gridPos.x-=100;
             setHealth(health - health * 0.001f);
             doHarvest(gridPos.x, gridPos.y);
+            enterCell(gridPos);
+            
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
+            leaveCell(gridPos);
             gridPos.x+= 100;
             setHealth(health - health * 0.001f);
             doHarvest(gridPos.x, gridPos.y);
+            enterCell(gridPos);
         }
         else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
+            leaveCell(gridPos);
             gridPos.y-= 100;
             setHealth(health - health * 0.001f);
             doHarvest(gridPos.x, gridPos.y);
+            enterCell(gridPos);
         }
         else if (Input.GetKeyDown(KeyCode.S))
         {
@@ -142,27 +151,28 @@ public class PlayerManager : NetworkBehaviour {
 
         transform.position = new Vector3(gridPos.x, gridPos.y);
 
-        Debug.Log("Health: " + getHealth());
-        Debug.Log("XP: " + getXP());
+        //Debug.Log("Health: " + getHealth());
+        //Debug.Log("XP: " + getXP());
     }
 
-    private bool enterCell(Vector3 gridPos)
+    [Command]
+    private void enterCell(Vector3 gridPos)
     {
         int xCell = switchFunction(gridPos.x), yCell = switchFunction(gridPos.y);
-        if(AllCells[xCell, yCell].isOccupied)
+        if(AllCells[xCell, yCell].playerID != 0)
         {
-            return true;
+            enableActionButtons(AllCells[xCell, yCell].playerID, player.ID);
         }
-        else
-        {
-            return false;
-        }
+        
+        AllCells[xCell, yCell].playerID = player.ID;
+
     }
 
+    [Command]
     private void leaveCell(Vector3 gridPos)
     {
         int xCell = switchFunction(gridPos.x), yCell = switchFunction(gridPos.y);
-        AllCells[xCell, yCell].isOccupied = false;
+        AllCells[xCell, yCell].playerID = 0;
     }
 
     [Command]
@@ -224,5 +234,10 @@ public class PlayerManager : NetworkBehaviour {
         cellLife = AllCells[xCell, yCell].getLife();
         setHealth(getHealth() + cellLife);       
         AllCells[xCell, yCell].setLife(0);
+    }
+
+    [ClientRpc]
+    public void enableActionButtons(int id_1, int id_2){
+        Debug.Log("COLLISION");
     }
 }

@@ -19,7 +19,8 @@ public class Cell : NetworkBehaviour {
 
     [SyncVar]
     float life;
-    public bool isOccupied;
+    [SyncVar]
+    public int playerID;
     int life_toPrint = 1;
 
     [HideInInspector]
@@ -31,7 +32,7 @@ public class Cell : NetworkBehaviour {
     {
         BoardPosition = newBoardPosition;
         life = given_life;
-        isOccupied = false;
+        playerID = 0;
         rectTransform = GetComponent<RectTransform>();
     }
 
@@ -40,6 +41,7 @@ public class Cell : NetworkBehaviour {
         GameObject newText = Instantiate(textPrefab, transform);
         newText.AddComponent<NetworkIdentity>();
         textPrefabText = newText.GetComponent<Text>();
+        
 
         textPrefabText.text = life_toPrint.ToString();
     }
