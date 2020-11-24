@@ -30,7 +30,10 @@ public class PlayerManager : NetworkBehaviour {
 
         GameObject[] Botoes = GameObject.FindGameObjectsWithTag("Botao");
 
-        GameObject Player = GameObject.FindGameObjectsWithTag("Player");
+        GameObject[] Player = GameObject.FindGameObjectsWithTag("Player");
+
+        GameObject[] Camera = GameObject.FindGameObjectsWithTag("MainCamera");
+
 
         int num = 0;
         for (int x = 0; x < 10; x++){
@@ -42,7 +45,14 @@ public class PlayerManager : NetworkBehaviour {
         }
 
         //ir a todos os botoes e meter o player como parent dos botoes
-        
+        foreach (GameObject botao in Botoes)
+        {
+            botao.transform.SetParent(Player[0].transform);
+            botao.transform.position = Player[0].transform.position;
+        }
+
+        Camera[0].transform.SetParent(Player[0].transform);
+        Camera[0].transform.position = Player[0].transform.position;
 
         //enterCell(gridPos);
     }
