@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8558330415455663497}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -119,8 +119,6 @@ MonoBehaviour:
     type: 3}
   Canvas: {fileID: 0}
   board: {fileID: 0}
-  healthBar: {fileID: 1948718399192956680, guid: 6ca780c8b5f79e14bbc31fe7801f8255,
-    type: 3}
 --- !u!114 &8558330415455663497
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -8,6 +8,7 @@ public class Button_direita : MonoBehaviour, IPointerDownHandler, IPointerUpHand
 {
     public float maxHealth = 100f;
     public HealthBar healthBar;
+    public PlayerManager player;
 
     void Start()
     {
@@ -18,7 +19,8 @@ public class Button_direita : MonoBehaviour, IPointerDownHandler, IPointerUpHand
         if (!pressed)
             return;
 
-        TakeDamage(healthBar.currentHealth * 0.001f);
+        player.right();
+        //TakeDamage(healthBar.currentHealth * 0.001f);
 
         Debug.Log("Direita pressed");
 

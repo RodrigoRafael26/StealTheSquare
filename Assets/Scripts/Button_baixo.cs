@@ -9,6 +9,8 @@ public class Button_baixo : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
     public float maxHealth = 100f;
     public HealthBar healthBar;
 
+    public PlayerManager player;
+
     void Start()
     {
         healthBar.SetMaxHealth(healthBar.currentHealth);
@@ -19,7 +21,8 @@ public class Button_baixo : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
         if (!pressed)
             return;
 
-        TakeDamage(healthBar.currentHealth * 0.001f);
+        player.down();
+        //TakeDamage(healthBar.currentHealth * 0.001f);
 
         Debug.Log("Baixo pressed");
 

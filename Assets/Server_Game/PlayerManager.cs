@@ -23,7 +23,7 @@ public class PlayerManager : NetworkBehaviour {
     PlayerClass player;
     [HideInInspector]
     public NetworkManagerSquare board;
-
+    public float health;
     [SyncVar]
     public int num_players = 0;
 
@@ -32,8 +32,14 @@ public class PlayerManager : NetworkBehaviour {
         base.OnStartClient();
         Canvas = GameObject.FindGameObjectsWithTag("Canvas")[0];
         GameObject[] Cells = GameObject.FindGameObjectsWithTag("Board");
-        
-        
+
+        GameObject[] Botoes = GameObject.FindGameObjectsWithTag("Game");
+
+        GameObject[] Player = GameObject.FindGameObjectsWithTag("Player");
+
+        GameObject Camera = GameObject.FindGameObjectsWithTag("MainCamera")[0];
+
+
         int num = 0;
         for (int x = 0; x < 10; x++){
             for(int y = 0; y < 10; y++){
@@ -42,6 +48,21 @@ public class PlayerManager : NetworkBehaviour {
                 num++;
             }
         }
+
+        //ir a todos os botoes e meter o player como parent dos botoes
+        foreach (GameObject botao in Botoes)
+        {
+            botao.transform.SetParent(Player[0].transform);
+            botao.transform.position = Player[0].transform.position;
+        }
+
+        //vai ser preciso verificar qual é o local player
+        if(isLocalPlayer){
+            Camera.transform.SetParent(Player[0].transform);
+            Camera.transform.position = Player[0].transform.position;
+            Camera.transform.rotation = Player[0].transform.rotation;
+        }
+        
 
         //enterCell(gridPos);
     }
@@ -59,8 +80,10 @@ public class PlayerManager : NetworkBehaviour {
         player.health = 100f;
         player.xp = 0;
         player.ID = num_players;
-
+        health =  player.health;
         Debug.Log(player.ID );
+
+   
     }
 
     public void setHealth(float health) {
@@ -86,15 +109,15 @@ public class PlayerManager : NetworkBehaviour {
     public string getNickname(){
         return player.nickname;
     }
-
+    
     // Update is called once per frame
     [Client]
-    void Update()
+    public void Update()
     {
         gridPos = transform.position;
-        float health = getHealth();
-        if (!hasAuthority){ return;} // only control one player
-
+        health = getHealth();
+       /* if (!hasAuthority){ return;} // only control one player
+        
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             leaveCell(gridPos);
@@ -128,6 +151,7 @@ public class PlayerManager : NetworkBehaviour {
             doHarvest(gridPos.x, gridPos.y);
             enterCell(gridPos);
         }
+        
         else if (Input.GetKeyDown(KeyCode.S))
         {
             float half_health = health / 2;
@@ -143,16 +167,57 @@ public class PlayerManager : NetworkBehaviour {
             //Debug.Log("Life is now "+  getHealth().ToString());
             Sow(gridPos.x, gridPos.y);    
         }
+        
        
         if (gridPos.y > 500) gridPos.y = -450;
         if(gridPos.y < -500) gridPos.y = 450;
         if(gridPos.x > 500) gridPos.x = -450;
         if(gridPos.x < -500) gridPos.x = 450;
 
-        transform.position = new Vector3(gridPos.x, gridPos.y);
+        transform.position = new Vector3(gridPos.x, gridPos.y);*/
 
         //Debug.Log("Health: " + getHealth());
         //Debug.Log("XP: " + getXP());
+    }
+
+
+    [Client]
+    public void up()
+    {
+        leaveCell(gridPos);
+        gridPos.y+=100;
+        setHealth(health - health * 0.001f);
+        doHarvest(gridPos.x, gridPos.y);
+        enterCell(gridPos);
+    }
+    [Client]
+    public void down()
+    {
+        leaveCell(gridPos);
+        gridPos.x-=100;
+        setHealth(health - health * 0.001f);
+        doHarvest(gridPos.x, gridPos.y);
+        enterCell(gridPos);
+    }
+
+    [Client]
+    public void left()
+    {
+        leaveCell(gridPos);
+        gridPos.x-=100;
+        setHealth(health - health * 0.001f);
+        doHarvest(gridPos.x, gridPos.y);
+        enterCell(gridPos);
+    }
+
+    [Client]
+    public void right()
+    {
+        leaveCell(gridPos);
+        gridPos.x+= 100;
+        setHealth(health - health * 0.001f);
+        doHarvest(gridPos.x, gridPos.y);
+        enterCell(gridPos);
     }
 
     [Command]
@@ -228,6 +293,7 @@ public class PlayerManager : NetworkBehaviour {
     [Command]
     public void doHarvest(float x, float y)
     {
+        Debug.Log("aaadeus");
         int xCell = switchFunction(x), yCell = switchFunction(y);
         float cellLife;
 

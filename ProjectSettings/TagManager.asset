@@ -7,6 +7,8 @@ TagManager:
   - Board
   - Network
   - Canvas
+  - Botao
+  - Game
   layers:
   - Default
   - TransparentFX
