@@ -9,6 +9,8 @@ public class Button_esquerda : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     public float maxHealth = 100f;
     public HealthBar healthBar;
 
+    public PlayerManager player;
+
     void Start()
     {
         healthBar.SetMaxHealth(healthBar.currentHealth);
@@ -17,7 +19,9 @@ public class Button_esquerda : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     {
         if (!pressed)
             return;
-        TakeDamage(healthBar.currentHealth * 0.001f);
+
+        player.left();
+        //TakeDamage(healthBar.currentHealth * 0.001f);
 
         Debug.Log("Esquerda pressed");
     }

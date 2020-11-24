@@ -217,7 +217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6aae2c927060993478b39cca9fd9940e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  board: {fileID: 0}
+  board: {fileID: 786705298}
   squares_w: 10
   squares_h: 10
 --- !u!1 &786705297
