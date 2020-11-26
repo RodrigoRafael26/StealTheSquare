@@ -19,6 +19,8 @@ public class Cell : NetworkBehaviour {
 
     [SyncVar]
     float life;
+
+    //TODO MUDAR PARA LISTA em vez de playerID
     [SyncVar]
     public int playerID;
     int life_toPrint = 1;

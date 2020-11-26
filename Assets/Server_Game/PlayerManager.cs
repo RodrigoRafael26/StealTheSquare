@@ -24,11 +24,14 @@ public class PlayerManager : NetworkBehaviour {
     [HideInInspector]
     public NetworkManagerSquare board;
     public float health;
+    
     [SyncVar]
     public int num_players = 0;
 
+    public int collisionID = 0;
+    
     public override void OnStartClient(){
-        
+        num_players++;
         base.OnStartClient();
         Canvas = GameObject.FindGameObjectsWithTag("Canvas")[0];
         GameObject[] Cells = GameObject.FindGameObjectsWithTag("Board");
@@ -49,21 +52,20 @@ public class PlayerManager : NetworkBehaviour {
             }
         }
 
-        //ir a todos os botoes e meter o player como parent dos botoes
-        foreach (GameObject botao in Botoes)
-        {
-            botao.transform.SetParent(Player[0].transform);
-            botao.transform.position = Player[0].transform.position;
-        }
-
-        //vai ser preciso verificar qual é o local player
-        if(isLocalPlayer){
-            Camera.transform.SetParent(Player[0].transform);
-            Camera.transform.position = Player[0].transform.position;
-            Camera.transform.rotation = Player[0].transform.rotation;
-        }
+  
         
-
+         //vai ser preciso verificar qual é o local player
+        foreach (GameObject player in Player){
+            NetworkBehaviour net = player.GetComponent<NetworkBehaviour>();
+            if(net.isLocalPlayer){
+                Debug.Log("Local Player");
+                Camera.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, -10);
+                Camera.transform.SetParent(player.transform);
+                Botoes[0].transform.SetParent(player.transform);
+                Botoes[0].transform.position = new Vector3(player.transform.position.x, player.transform.position.y,0);
+               
+            }
+        }
         //enterCell(gridPos);
     }
 
@@ -116,7 +118,7 @@ public class PlayerManager : NetworkBehaviour {
     {
         gridPos = transform.position;
         health = getHealth();
-       /* if (!hasAuthority){ return;} // only control one player
+        if (!hasAuthority){ return;} // only control one player
         
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
@@ -124,7 +126,7 @@ public class PlayerManager : NetworkBehaviour {
             gridPos.y+=100;
             setHealth(health - health * 0.001f);
             doHarvest(gridPos.x, gridPos.y);
-            enterCell(gridPos);
+            //enterCell(gridPos);
         }
         else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
@@ -132,7 +134,7 @@ public class PlayerManager : NetworkBehaviour {
             gridPos.x-=100;
             setHealth(health - health * 0.001f);
             doHarvest(gridPos.x, gridPos.y);
-            enterCell(gridPos);
+            //enterCell(gridPos);
             
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow))
@@ -141,7 +143,7 @@ public class PlayerManager : NetworkBehaviour {
             gridPos.x+= 100;
             setHealth(health - health * 0.001f);
             doHarvest(gridPos.x, gridPos.y);
-            enterCell(gridPos);
+            //enterCell(gridPos);
         }
         else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
@@ -149,7 +151,7 @@ public class PlayerManager : NetworkBehaviour {
             gridPos.y-= 100;
             setHealth(health - health * 0.001f);
             doHarvest(gridPos.x, gridPos.y);
-            enterCell(gridPos);
+            
         }
         
         else if (Input.GetKeyDown(KeyCode.S))
@@ -162,6 +164,7 @@ public class PlayerManager : NetworkBehaviour {
         }
         else if (Input.GetKeyDown(KeyCode.X))
         {
+            
             float third_health = health / 3;
             setHealth(health - third_health);
             //Debug.Log("Life is now "+  getHealth().ToString());
@@ -173,8 +176,8 @@ public class PlayerManager : NetworkBehaviour {
         if(gridPos.y < -500) gridPos.y = 450;
         if(gridPos.x > 500) gridPos.x = -450;
         if(gridPos.x < -500) gridPos.x = 450;
-
-        transform.position = new Vector3(gridPos.x, gridPos.y);*/
+        enterCell(gridPos);
+        transform.position = new Vector3(gridPos.x, gridPos.y);
 
         //Debug.Log("Health: " + getHealth());
         //Debug.Log("XP: " + getXP());
@@ -226,7 +229,10 @@ public class PlayerManager : NetworkBehaviour {
         int xCell = switchFunction(gridPos.x), yCell = switchFunction(gridPos.y);
         if(AllCells[xCell, yCell].playerID != 0)
         {
-            enableActionButtons(AllCells[xCell, yCell].playerID, player.ID);
+            //Criar uma lista de colisioes para aceitar sempre a primeira resposta
+            RPCenableActionButtons(AllCells[xCell, yCell].playerID, player.ID, collisionID);
+            //aumentar o collision ID
+            collisionID++;
         }
         
         AllCells[xCell, yCell].playerID = player.ID;
@@ -293,7 +299,6 @@ public class PlayerManager : NetworkBehaviour {
     [Command]
     public void doHarvest(float x, float y)
     {
-        Debug.Log("aaadeus");
         int xCell = switchFunction(x), yCell = switchFunction(y);
         float cellLife;
 
@@ -303,7 +308,29 @@ public class PlayerManager : NetworkBehaviour {
     }
 
     [ClientRpc]
-    public void enableActionButtons(int id_1, int id_2){
-        Debug.Log("COLLISION");
+    public void RPCenableActionButtons(int id_1, int id_2, int collision){
+        //block movement until button press or collision solved
+        Debug.Log("SHOW BUTTONS");
+    }
+
+    //Sera que podemos ter um ID para cada colisao e ter uma lista com as colisoes ou simplesmente fazemos o que vier primeiro
+    [Command]
+    public void playerDecision(int playerID, int playerDecision, int CollisionID){
+        //verificar se aquela colisao ja foi resolvida procurando na lista pelo ID
+        //se sim return e nao faz nada
+        //se nao fazer enviar a resposta para todos
+        //RPCHandleCollision(collision.ID_1, collision.ID_2, playerDecision);
+    }
+
+    [ClientRpc]
+    public void RPCHandleCollision(int id_1, int id_2, int collisionType){
+        //verificar se o local player faz parte dos jogadores da colisao
+        if(player.ID == id_1 || player.ID == id_2){
+            Debug.Log("COLLISION");
+
+            //if(fight) do fight random (fazer a cena do pedra/papel/tesoura da muito trabalho para agr) ...
+        }else{
+            return;
+        }
     }
 }
