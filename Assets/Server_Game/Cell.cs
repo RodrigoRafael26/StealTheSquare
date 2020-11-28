@@ -7,9 +7,6 @@ using System;
 using Mirror;
 
 public class Cell : NetworkBehaviour {
-
-    // Start is called before the first frame update
-    public Sprite image;
     
     public GameObject textPrefab;
     [HideInInspector]
@@ -22,7 +19,8 @@ public class Cell : NetworkBehaviour {
 
     //TODO MUDAR PARA LISTA em vez de playerID
     [SyncVar]
-    public int playerID;
+    public List<int> players;
+    
     int life_toPrint = 1;
 
     [HideInInspector]
@@ -30,16 +28,20 @@ public class Cell : NetworkBehaviour {
 
     float count = 0f;
     
+    public Sprite FULL, HALF_LOW, HALF_HIGH, EMPTY;
     public void Setup(Vector2Int newBoardPosition, int given_life)
     {
         BoardPosition = newBoardPosition;
         life = given_life;
-        playerID = 0;
+        players = new List<int>();
         rectTransform = GetComponent<RectTransform>();
+
+        Debug.Log(this);
     }
 
     void Start(){
-        
+
+        this.GetComponent<Image>().sprite = EMPTY;
         GameObject newText = Instantiate(textPrefab, transform);
         newText.AddComponent<NetworkIdentity>();
         textPrefabText = newText.GetComponent<Text>();

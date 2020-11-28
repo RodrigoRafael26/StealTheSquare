@@ -12,6 +12,14 @@ class PlayerClass {
     public bool[,] position;
 }
 
+
+public class Collision {
+    public int id_1;
+    public int id_2;
+    public int collisionID;
+    public bool resolved;
+}
+
 public class PlayerManager : NetworkBehaviour {
 
     Button_cima cima;
@@ -28,11 +36,13 @@ public class PlayerManager : NetworkBehaviour {
     public float health;
     GameObject[] botoesMove;
 
-
+    [HideInInspector]
+    public List<Collision> serverCollisions = new List<Collision>();
     [SyncVar]
     public int num_players = 0;
 
     public int collisionID = 0;
+
     
     public override void OnStartClient(){
         num_players++;
@@ -198,15 +208,23 @@ public class PlayerManager : NetworkBehaviour {
     private void enterCell(Vector3 gridPos)
     {
         int xCell = switchFunction(gridPos.x), yCell = switchFunction(gridPos.y);
-        if(AllCells[xCell, yCell].playerID != 0)
+        if(AllCells[xCell, yCell].players.Count == 2)
         {
             //Criar uma lista de colisioes para aceitar sempre a primeira resposta
-            RPCenableActionButtons(AllCells[xCell, yCell].playerID, player.ID, collisionID);
+            RPCenableActionButtons(AllCells[xCell, yCell].players.ToArray()[0], AllCells[xCell, yCell].players.ToArray()[1], collisionID);
+            //Create a new collision
+            Collision col = new Collision();
+            //add both id's in the list to the collision
+            col.id_1 = AllCells[xCell, yCell].players.ToArray()[0];
+            col.id_2 = AllCells[xCell, yCell].players.ToArray()[1];
+            col.collisionID = collisionID;
+            col.resolved = false;
+            serverCollisions.Add(col);
             //aumentar o collision ID
             collisionID++;
         }
         
-        AllCells[xCell, yCell].playerID = player.ID;
+        AllCells[xCell, yCell].players.Add(player.ID);
 
     }
 
@@ -214,7 +232,7 @@ public class PlayerManager : NetworkBehaviour {
     private void leaveCell(Vector3 gridPos)
     {
         int xCell = switchFunction(gridPos.x), yCell = switchFunction(gridPos.y);
-        AllCells[xCell, yCell].playerID = 0;
+        AllCells[xCell, yCell].players.Remove(player.ID);
     }
 
     [Command]
@@ -282,15 +300,23 @@ public class PlayerManager : NetworkBehaviour {
     public void RPCenableActionButtons(int id_1, int id_2, int collision){
         //block movement until button press or collision solved
         Debug.Log("SHOW BUTTONS");
+
+        //precisamos de receber a escolha da acao aqui
     }
 
-    //Sera que podemos ter um ID para cada colisao e ter uma lista com as colisoes ou simplesmente fazemos o que vier primeiro
     [Command]
     public void playerDecision(int playerID, int playerDecision, int CollisionID){
         //verificar se aquela colisao ja foi resolvida procurando na lista pelo ID
+        Collision handle = serverCollisions.Find(x => x.collisionID == collisionID);
+
         //se sim return e nao faz nada
-        //se nao fazer enviar a resposta para todos
-        //RPCHandleCollision(collision.ID_1, collision.ID_2, playerDecision);
+        if(handle != null && handle.resolved == true) return;
+        else{
+            //se nao fazer enviar a resposta para todos
+            RPCHandleCollision(handle.id_1, handle.id_2, playerDecision);
+            handle.resolved = true;
+        }
+        
     }
 
     [ClientRpc]
@@ -298,7 +324,6 @@ public class PlayerManager : NetworkBehaviour {
         //verificar se o local player faz parte dos jogadores da colisao
         if(player.ID == id_1 || player.ID == id_2){
             Debug.Log("COLLISION");
-
             //if(fight) do fight random (fazer a cena do pedra/papel/tesoura da muito trabalho para agr) ...
         }else{
             return;
