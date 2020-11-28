@@ -14,6 +14,8 @@ class PlayerClass {
 
 public class PlayerManager : NetworkBehaviour {
 
+    Button_cima cima;
+
     // Start is called before the first frame update
     public Vector3 movement;
     public GameObject CellPrefab;
@@ -24,7 +26,9 @@ public class PlayerManager : NetworkBehaviour {
     [HideInInspector]
     public NetworkManagerSquare board;
     public float health;
-    
+    GameObject[] botoesMove;
+
+
     [SyncVar]
     public int num_players = 0;
 
@@ -42,6 +46,8 @@ public class PlayerManager : NetworkBehaviour {
 
         GameObject Camera = GameObject.FindGameObjectsWithTag("MainCamera")[0];
 
+
+        botoesMove = GameObject.FindGameObjectsWithTag("BotoesMove");
 
         int num = 0;
         for (int x = 0; x < 10; x++){
@@ -119,17 +125,20 @@ public class PlayerManager : NetworkBehaviour {
         gridPos = transform.position;
         health = getHealth();
         if (!hasAuthority){ return;} // only control one player
-        
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+
+        if (botoesMove[0].GetComponent<Button_cima>().pressed)
+            
         {
+            botoesMove[0].GetComponent<Button_cima>().pressed = false;
             leaveCell(gridPos);
             gridPos.y+=100;
             setHealth(health - health * 0.001f);
             doHarvest(gridPos.x, gridPos.y);
             //enterCell(gridPos);
         }
-        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        else if (botoesMove[3].GetComponent<Button_esquerda>().pressed)
         {
+            botoesMove[3].GetComponent<Button_esquerda>().pressed = false;
             leaveCell(gridPos);
             gridPos.x-=100;
             setHealth(health - health * 0.001f);
@@ -137,16 +146,18 @@ public class PlayerManager : NetworkBehaviour {
             //enterCell(gridPos);
             
         }
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
+        else if (botoesMove[2].GetComponent<Button_direita>().pressed)
         {
+            botoesMove[2].GetComponent<Button_direita>().pressed = false;
             leaveCell(gridPos);
             gridPos.x+= 100;
             setHealth(health - health * 0.001f);
             doHarvest(gridPos.x, gridPos.y);
             //enterCell(gridPos);
         }
-        else if (Input.GetKeyDown(KeyCode.DownArrow))
+        else if (botoesMove[1].GetComponent<Button_baixo>().pressed)
         {
+            botoesMove[1].GetComponent<Button_baixo>().pressed = false;
             leaveCell(gridPos);
             gridPos.y-= 100;
             setHealth(health - health * 0.001f);
@@ -181,46 +192,6 @@ public class PlayerManager : NetworkBehaviour {
 
         //Debug.Log("Health: " + getHealth());
         //Debug.Log("XP: " + getXP());
-    }
-
-
-    [Client]
-    public void up()
-    {
-        leaveCell(gridPos);
-        gridPos.y+=100;
-        setHealth(health - health * 0.001f);
-        doHarvest(gridPos.x, gridPos.y);
-        enterCell(gridPos);
-    }
-    [Client]
-    public void down()
-    {
-        leaveCell(gridPos);
-        gridPos.x-=100;
-        setHealth(health - health * 0.001f);
-        doHarvest(gridPos.x, gridPos.y);
-        enterCell(gridPos);
-    }
-
-    [Client]
-    public void left()
-    {
-        leaveCell(gridPos);
-        gridPos.x-=100;
-        setHealth(health - health * 0.001f);
-        doHarvest(gridPos.x, gridPos.y);
-        enterCell(gridPos);
-    }
-
-    [Client]
-    public void right()
-    {
-        leaveCell(gridPos);
-        gridPos.x+= 100;
-        setHealth(health - health * 0.001f);
-        doHarvest(gridPos.x, gridPos.y);
-        enterCell(gridPos);
     }
 
     [Command]

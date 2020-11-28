@@ -4,25 +4,27 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class Button_cima : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class Button_cima : MonoBehaviour
 {
     public float maxHealth = 100f;
     public HealthBar healthBar;
 
-    public PlayerManager player;
+    public Button buttonCima;
+    Button btnCima;
 
-    void Start()
+   void Start()
     {
         healthBar.SetMaxHealth(healthBar.currentHealth);
+
+        btnCima = buttonCima.GetComponent<Button>();
+        btnCima.onClick.AddListener(TaskOnClick);
     }
     void Update()
     {
         if (!pressed)
             return;
 
-        player.up();
         //TakeDamage(healthBar.currentHealth * 0.001f);
-
         Debug.Log("Cima pressed");
 
     }
@@ -33,14 +35,10 @@ public class Button_cima : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         healthBar.SetHealth(healthBar.currentHealth);
 
     }
-    bool pressed = false;
-    public void OnPointerDown(PointerEventData eventData)
+    public bool pressed = false;
+    void TaskOnClick()
     {
         pressed = true;
-    }
-
-    public void OnPointerUp(PointerEventData eventData)
-    {
-        pressed = false;
+        Debug.Log("You have clicked the upper button!");
     }
 }

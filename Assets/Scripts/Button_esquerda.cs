@@ -4,25 +4,27 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class Button_esquerda : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class Button_esquerda : MonoBehaviour
 {
     public float maxHealth = 100f;
     public HealthBar healthBar;
 
-    public PlayerManager player;
+    public Button buttonEsquerda;
+    Button btnEsquerda;
 
     void Start()
     {
         healthBar.SetMaxHealth(healthBar.currentHealth);
+
+        btnEsquerda = buttonEsquerda.GetComponent<Button>();
+        btnEsquerda.onClick.AddListener(TaskOnClick);
     }
     void Update()
     {
         if (!pressed)
             return;
 
-        player.left();
         //TakeDamage(healthBar.currentHealth * 0.001f);
-
         Debug.Log("Esquerda pressed");
     }
 
@@ -32,15 +34,10 @@ public class Button_esquerda : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         healthBar.SetHealth(healthBar.currentHealth);
 
     }
-
-    bool pressed = false;
-    public void OnPointerDown(PointerEventData eventData)
+    public bool pressed = false;
+    void TaskOnClick()
     {
         pressed = true;
-    }
-
-    public void OnPointerUp(PointerEventData eventData)
-    {
-        pressed = false;
+        Debug.Log("You have clicked the left button!");
     }
 }

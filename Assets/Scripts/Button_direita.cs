@@ -4,24 +4,27 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class Button_direita : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class Button_direita : MonoBehaviour
 {
     public float maxHealth = 100f;
     public HealthBar healthBar;
-    public PlayerManager player;
+
+    public Button buttonDireita;
+    Button btnDireita;
 
     void Start()
     {
         healthBar.SetMaxHealth(healthBar.currentHealth);
+
+        btnDireita = buttonDireita.GetComponent<Button>();
+        btnDireita.onClick.AddListener(TaskOnClick);
     }
     void Update()
     {
         if (!pressed)
             return;
 
-        player.right();
         //TakeDamage(healthBar.currentHealth * 0.001f);
-
         Debug.Log("Direita pressed");
 
     }
@@ -33,14 +36,10 @@ public class Button_direita : MonoBehaviour, IPointerDownHandler, IPointerUpHand
 
     }
 
-    bool pressed = false;
-    public void OnPointerDown(PointerEventData eventData)
+    public bool pressed = false;
+    void TaskOnClick()
     {
         pressed = true;
-    }
-
-    public void OnPointerUp(PointerEventData eventData)
-    {
-        pressed = false;
+        Debug.Log("You have clicked the right button!");
     }
 }

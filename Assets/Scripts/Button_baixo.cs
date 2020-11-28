@@ -4,15 +4,19 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class Button_baixo : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class Button_baixo : MonoBehaviour
 {
     public float maxHealth = 100f;
     public HealthBar healthBar;
 
-    public PlayerManager player;
+    public Button buttonBaixo;
+    Button btnBaixo;
 
     void Start()
     {
+
+        btnBaixo = buttonBaixo.GetComponent<Button>();
+        btnBaixo.onClick.AddListener(TaskOnClick);
         healthBar.SetMaxHealth(healthBar.currentHealth);
     }
 
@@ -20,8 +24,6 @@ public class Button_baixo : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
     {
         if (!pressed)
             return;
-
-        player.down();
         //TakeDamage(healthBar.currentHealth * 0.001f);
 
         Debug.Log("Baixo pressed");
@@ -34,14 +36,10 @@ public class Button_baixo : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
         healthBar.SetHealth(healthBar.currentHealth);
     }
 
-    bool pressed = false;
-    public void OnPointerDown(PointerEventData eventData)
+    public bool pressed = false;
+    void TaskOnClick()
     {
         pressed = true;
-    }
-
-    public void OnPointerUp(PointerEventData eventData)
-    {
-        pressed = false;
+        Debug.Log("You have clicked the left button!");
     }
 }
